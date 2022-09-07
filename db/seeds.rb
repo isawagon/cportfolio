@@ -19,7 +19,7 @@ Coin.create!(
   symbol: "btc",
   name: "Bitcoin",
   image_url: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-  portfolio: 1,
+  portfolio_id: 1,
   stock: 2
 )
 puts "Finished!"
