@@ -30,3 +30,16 @@
 .card-coin .card-coin-infos {
   padding: 16px;
 }
+
+.card-portfolio {
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 12px 20px;
+    border-radius: 10px;
+    width: 800px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    gap: 1.5rem;
+}

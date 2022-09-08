@@ -1,8 +1,9 @@
 class CoinsController < ApplicationController
   def index
     @portfolios = current_user.portfolios.all
-  
-    @coins = Coin.where(portfolio_id: 1)
+
+# affiner en ne transmettant que les coins des portfolios du user
+    @coins = Coin.all
   end
 
   def show

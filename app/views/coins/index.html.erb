@@ -1,17 +1,22 @@
 <h1>Coins#index</h1>
 <p>Find me in app/views/coins/index.html.erb</p>
-<% @portfolios.each do |portfolio| %>
-  <p><%= portfolio.name  %></p>
-  <div class="portfolio-list">
+<div class="container">
+  <div class="dashboard">
+    <% @portfolios.each do |portfolio| %>
+      <div class="card-portfolio">
+        <p><%= portfolio.name  %></p>
+        <% @coins.each do |coin| %>
+          <% if coin.portfolio_id == portfolio.id %>
+            <div class="card-coin">
+              <%= image_tag coin.image_url, alt: coin.name %>
+              <div class="card-coin-infos">
+              <p>coin name <%= coin.name %> stock <%= sprintf('%2f', coin.stock) %></p>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
 
-      <% @coins.each do |coin| %>
-        <div class="card-coin">
-          <%= image_tag coin.image_url, alt: coin.name %>
-          <div class="card-coin-infos">
-            <p>coin name <%= coin.name %> stock <%= sprintf('%2f', coin.stock) %></p>
-          </div>
-        </div>
-      <% end %>
-
+    <% end %>
   </div>
-  <% end %>
+</div>
