@@ -10,7 +10,11 @@
             <div class="card-coin">
               <%= image_tag coin.image_url, alt: coin.name %>
               <div class="card-coin-infos">
-              <p>coin name <%= coin.name %> stock <%= sprintf('%2f', coin.stock) %></p>
+                <p>coin name <%= coin.name %>
+                  stock     <%= sprintf('%2f', coin.stock) %>
+                  price     <%= sprintf('%2f', coin.price) %>
+                  24h change<%= coin.change %>
+                </p>
               </div>
             </div>
           <% end %>
