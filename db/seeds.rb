@@ -18,7 +18,7 @@ p1.save!
 puts "Creating coin 1..."
 Coin.create!(
   gecko_coin: "bitcoin",
-  symbol: "btc",
+  symbol: "BTC",
   name: "Bitcoin",
   image_url: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
   portfolio_id: p1.id,
@@ -27,7 +27,7 @@ Coin.create!(
 puts "Creating coin 2..."
 Coin.create!(
   gecko_coin: "ethereum",
-  symbol: "eth",
+  symbol: "ETH",
   name: "Ethereum",
   image_url: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
   portfolio_id: p1.id,
@@ -36,8 +36,8 @@ Coin.create!(
 puts "Creating coin 3..."
 Coin.create!(
   gecko_coin: "ripple",
-  symbol: "xrp",
-  name: "XRP",
+  symbol: "XRP",
+  name: "Ripple",
   image_url: "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1605778731",
   portfolio_id: p1.id,
   stock: 1.30
@@ -46,8 +46,8 @@ Coin.create!(
 puts "Creating coin 4..."
 Coin.create!(
   gecko_coin: "binancecoin",
-  symbol: "bnb",
-  name: "BNB",
+  symbol: "BNB",
+  name: "Binance Coin",
   image_url: "https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1644979850",
   portfolio_id: p1.id,
   stock: 1.4440
@@ -55,7 +55,7 @@ Coin.create!(
 puts "Creating coin 5..."
 Coin.create!(
   gecko_coin: "cardano",
-  symbol: "ada",
+  symbol: "ADA",
   name: "Cardano",
   image_url: "https://assets.coingecko.com/coins/images/975/large/cardano.png?1547034860",
   portfolio_id: p1.id,
@@ -70,7 +70,7 @@ p2.save!
 puts "Creating coin 1..."
 Coin.create!(
   gecko_coin: "bitcoin",
-  symbol: "btc",
+  symbol: "BTC",
   name: "Bitcoin",
   image_url: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
   portfolio_id: p2.id,
@@ -79,7 +79,7 @@ Coin.create!(
 puts "Creating coin 2..."
 Coin.create!(
   gecko_coin: "ethereum",
-  symbol: "eth",
+  symbol: "ETH",
   name: "Ethereum",
   image_url: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
   portfolio_id: p2.id,
@@ -94,7 +94,7 @@ p3.save!
 puts "Creating coin 1..."
 Coin.create!(
   gecko_coin: "bitcoin",
-  symbol: "btc",
+  symbol: "BTC",
   name: "Bitcoin",
   image_url: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
   portfolio_id: p3.id,

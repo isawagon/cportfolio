@@ -5,21 +5,52 @@
     <% @portfolios.each do |portfolio| %>
       <div class="flex-item card-portfolio ">
         <h2><%= portfolio.name  %></h2>
+        <%# header %>
+        <div class="flex-item card-coin-head">
+              <div class=" flex-item card-coin-logo">
+              </div>
+              <div class=" flex-item card-coin-infos-left">
+              </div>
+              <div class="flex-item card-coin-infos-left">
+              </div>
+              <div class="flex-item card-coin-infos-right">
+                  stock
+              </div>
+              <div class="flex-item card-coin-infos-right">
+                  price €
+              </div>
+              <div class="card-coin-infos-right">
+                  value €
+              </div>
+            </div>
+        <%# end of header %>
         <% @coins.each do |coin| %>
           <% if coin.portfolio_id == portfolio.id %>
-            <div class="card-coin">
-              <%= image_tag coin.image_url, alt: coin.name %>
-              <div class="card-coin-infos">
-                <p>coin name <%= coin.name %>
-                  stock     <%= sprintf('%2f', coin.stock) %>
-                  price     <%= sprintf('%2f', coin.price) %>
-                  24h change<%= coin.change %>
-                  value     <%= sprintf('%2f', coin.stock*coin.price) %>
-                </p>
+            <div class="flex-item card-coin">
+              <div class="flex-item card-coin-logo">
+                <%= image_tag coin.image_url, alt: coin.name %>
+              </div>
+              <div class=" flex-item card-coin-infos-left">
+                <%= coin.symbol %>
+              </div>
+              <div class="flex-item card-coin-infos-left">
+                <%= coin.name %>
+              </div>
+              <div class="flex-item card-coin-infos-right">
+                <%= coin.stock %>
+              </div>
+              <div class="flex-item card-coin-infos-right">
+                 <%= coin.price %>
+              </div>
+              <div class="card-coin-infos-right">
+                <%= sprintf('%.2f', coin.stock*coin.price) %>
               </div>
             </div>
           <% end %>
         <% end %>
+        <div class="flex-item card-coin">
+          <a href="#" class="btn btn-info  ">add a coin</a>
+        </div>
       </div>
 
     <% end %>

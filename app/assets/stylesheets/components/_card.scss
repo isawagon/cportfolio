@@ -16,9 +16,20 @@
   margin: 0;
   color: $gray;
 }
+.card-coin-head {
+  overflow: hidden;
+  height: 40px;
+  width: 700px;
+  background: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+}
+
 .card-coin {
   overflow: hidden;
   height: 120px;
+  width: 700px;
   background: white;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
   display: flex;
@@ -45,6 +56,20 @@
   margin-top: 8px;
 }
 
-.card-coin .card-coin-infos {
+.card-coin-infos-left {
   padding: 16px;
+  align-items: space-around;
+  width: 100px;
+  text-align: left;
+}
+.card-coin-infos-right {
+  padding: 16px;
+  align-items: space-around;
+  width: 100px;
+  text-align: right;
+}
+.card-coin-logo {
+  padding: 16px;
+  align-items: space-around;
+  width: 140px;
 }

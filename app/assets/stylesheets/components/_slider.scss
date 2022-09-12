@@ -1,0 +1,13 @@
+
+  .swiper-container {
+    overflow: visible;
+
+    .pokemon-card {
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+  }
