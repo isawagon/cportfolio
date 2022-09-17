@@ -1,2 +1,19 @@
 <h1>Coins#new</h1>
 <p>Find me in app/views/coins/new.html.erb</p>
+<%# contrôler les 3 caractères mini %>
+<div class="container text-center" data-controller="search-crypto" >
+  <form class = "row g-2 justify-content-center py-5"
+        data-search-crypto-target = "form"
+        data-action="submit->search-crypto#api">
+    <input  type ="text"
+            class="form-control"
+            placeholder="Enter at least 3 characters... "
+            data-search-crypto-target="input">
+    <input  type="submit"
+            class="btn btn-primary btn-lg">
+  </form>
+
+  <ul data-search-crypto-target="results" data-controller = "select-crypto">
+  </ul>
+
+</div>
