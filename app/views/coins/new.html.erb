@@ -12,8 +12,17 @@
     <input  type="submit"
             class="btn btn-primary btn-lg">
   </form>
-
-  <ul data-search-crypto-target="results" data-controller = "select-crypto">
-  </ul>
-
+  <div data-controller = "select-crypto">
+    <ul  data-search-crypto-target="results" >
+    </ul>
+    <p data-select-crypto-target="id"></p>
+    <p data-select-crypto-target="symbol"></p>
+    <p data-select-crypto-target="name"></p>
+    <p data-select-crypto-target="url"></p>
+  </div>
+  <%# alimenter les données du coin à créer ? %>
+  <%# <% @coin.gecko_coin =  %> 
+  <%# @coin.symbol = %>
+  <%# @coin.name = %>
+  <%# @coin.image_url = %>
 </div>

@@ -25,36 +25,42 @@ export default class extends Controller {
   insertResults(data) {
     const coins = ((data["coins"]))
     const cryptoTag = `<li class="list-group-item border-0">
-      <div class="d-flex " >
-        <div class="flex-item card-coin-logo">
-          logo
-        </div>
-        <div class="flex-item card-coin-infos-left">
-          symbol
-        </div>
-        <div class="flex-item card-coin-infos-left">
-          name
-        </div>
-        <div class="flex-item card-coin-infos-left">
-          market-cap-rank
+      <div class="d-flex">
+        <div class ="flex-item card-coin" >
+          <div class="flex-item card-coin-logo">
+            logo
+          </div>
+          <div class="flex-item card-coin-infos-left">
+            symbol
+          </div>
+          <div class="flex-item card-coin-infos-left">
+            name
+          </div>
+          <div class="flex-item card-coin-infos-right">
+            market-cap-rank
+          </div>
+          <div  class="flex-item card-coin-infos-left">
+          Select
+          </div>
+
         </div>
     </li>`
     this.resultsTarget.insertAdjacentHTML("beforeend", cryptoTag)
     coins.forEach((value) => {
+      const id = value["id"]
       const symbol = value["symbol"]
       const name = value["name"]
       const url = value["large"]
       const marketcaprank = value["market_cap_rank"]
+
       const cryptoTag = `
         <li class="list-group-item border-0">
-          <div class="d-flex"
-               data-search-crypto-target = "crypto"
-               data-action="click->select-crypto#select">
+          <div class="d-flex">
             <div class="flex-item card-coin">
               <div class="flex-item card-coin-logo">
                 <image src="${url}" alt="${name}" >
               </div>
-              <div class="flex-item card-coin-infos-left">
+              <div class="flex-item card-coin-infos-left"  >
               ${symbol}
               </div>
               <div class="flex-item card-coin-infos-left">
@@ -63,8 +69,15 @@ export default class extends Controller {
               <div class="flex-item card-coin-infos-right">
               ${marketcaprank}
               </div>
+              <div class="flex-item card-coin-infos-right">
+                <div  class="flex-item card-coin-infos-select"
+                    data-action="click->select-crypto#select"
+                    data-select-crypto-target = "id">
+                    ${id}
+                </div>
+              </div>
             </div>
-          </div
+          </div>
         </li>`
         this.resultsTarget.insertAdjacentHTML("beforeend", cryptoTag)
     })
