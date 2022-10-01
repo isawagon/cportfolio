@@ -1,12 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
-# ******************************************************
 # Création de portfolios et coins
 
 puts "Destroying portfolios..."
@@ -40,7 +31,7 @@ puts "Creating coin 3..."
 Coin.create!(
   gecko_coin: "ripple",
   symbol: "XRP",
-  name: "Ripple",
+  name: "Xrp",
   image_url: "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1605778731",
   portfolio_id: p1.id,
   stock: 1.30
@@ -105,6 +96,7 @@ Coin.create!(
 )
 puts "Portfolios and coins finished!"
 
+User.first.admin = true
 
 # Création des 100 premiers en market caps
 # puts "creation coins de base..."

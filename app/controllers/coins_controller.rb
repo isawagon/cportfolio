@@ -1,4 +1,6 @@
 class CoinsController < ApplicationController
+  before_action :set_portfolio, only: %i[new create]
+
   require "open-uri"
 
   def index
@@ -9,32 +11,42 @@ class CoinsController < ApplicationController
 
   def new
     @coin = Coin.new
+    @portfolio = Portfolio.find(params[:portfolio_id])
   end
 
   def create
     @coin = Coin.new(coin_params)
-    @coin.portfolio = current_portfolio
+    @coin.portfolio = @portfolio
+    main_data = search_main_data(@coin.gecko_coin)
+    @coin.name = main_data["name"].capitalize
+    @coin.symbol = main_data["symbol"].upcase
+    @coin.image_url = (main_data["image"])["large"]
     @coin.stock = 0
-    if @coin.save
-      redirect_to root_path
+
+    # empêcher la création d'une crypto déjà en portefeuille
+    if @coin.save!
+      redirect_to root_path, notice: "nouvelle crypto ajoutée"
     else
-      render :new
+      render :new, status: :unprocessable_entity, notice: "erreur"
     end
   end
 
   private
 
-  def coin_params
-    params.require(:coin).permit(:gecko_coin, :name, :symbol, :image_url)
+  def set_portfolio
+    @portfolio = Portfolio.find(params[:portfolio_id])
   end
 
+  def coin_params
+    params.require(:coin).permit(:gecko_coin)
+  end
+
+  def search_main_data(gecko_id)
+    main_data_url = "https://api.coingecko.com/api/v3/coins/#{gecko_id}?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false"
+    main_data_serialized = URI.open(main_data_url).read
+    # gérer l'erreur si l'utilisateur ne saisit pas une crypto valide
+    # (en attendant de pouvoir la sélectionner)
+    JSON.parse(main_data_serialized)
+  end
 
 end
-
-#  données à créer
-#   gecko_coin: "bitcoin",
-#   symbol: "BTC",
-#   name: "Bitcoin",
-#   image_url: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-#   portfolio_id: p3.id,
-#   stock: 0

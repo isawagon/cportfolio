@@ -1,6 +1,5 @@
-<h1>Coins#new</h1>
-<p>Find me in app/views/coins/new.html.erb</p>
-<%# contrôler les 3 caractères mini %>
+<h1>Add a new crypto to <%= @portfolio.name %></h1>
+
 <div class="container text-center" data-controller="search-crypto" >
   <form class = "row g-2 justify-content-center py-5"
         data-search-crypto-target = "form"
@@ -8,21 +7,18 @@
     <input  type ="text"
             class="form-control"
             placeholder="Enter at least 3 characters... "
-            data-search-crypto-target="input">
+            data-search-crypto-target="input"
+            minlength = 3>
     <input  type="submit"
             class="btn btn-primary btn-lg">
   </form>
-  <div data-controller = "select-crypto">
-    <ul  data-search-crypto-target="results" >
-    </ul>
-    <p data-select-crypto-target="id"></p>
-    <p data-select-crypto-target="symbol"></p>
-    <p data-select-crypto-target="name"></p>
-    <p data-select-crypto-target="url"></p>
-  </div>
-  <%# alimenter les données du coin à créer ? %>
-  <%# <% @coin.gecko_coin =  %> 
-  <%# @coin.symbol = %>
-  <%# @coin.name = %>
-  <%# @coin.image_url = %>
+
+  <%# En attendant de savoir sélectionner dans la liste ul renvoyée par le search js,
+   l'utilisateur doit recopier %>
+  <%= simple_form_for [@portfolio, @coin] do |f| %>
+    <%= f.input :gecko_coin, :placeholder => 'Enter Select code' %>
+    <%= f.submit %>
+  <% end %>
+
+  <ul data-search-crypto-target="results"> </ul>
 </div>

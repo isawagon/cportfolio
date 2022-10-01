@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   # skip_before_action :authenticate_user!, only: [ :home ]
   require "open-uri"
-  
+
   def home
     @portfolios = current_user.portfolios.all
     @coins = current_user.coins.all
@@ -13,7 +13,7 @@ class PagesController < ApplicationController
     end
   end
 
-    private
+  private
 
   def search_price(coin)
     price_url = "https://api.coingecko.com/api/v3/simple/price?ids=#{coin.gecko_coin}&vs_currencies=EUR&include_24hr_change=true"

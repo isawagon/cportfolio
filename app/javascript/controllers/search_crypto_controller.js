@@ -1,12 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["form", "input", "results"]
+  static targets = ["form", "input", "results", "coins" ]
   connect() {
     console.log("Hello from search-crypto Stimulus controller")
-    // this.fetchCrypto("monero")
-    // au connect afficher les 7 plus gros market cap
+    // au connect afficher les 7 plus gros market cap ?
   }
+
   api(event) {
     event.preventDefault()
     console.log("Hello from search-crypto#api");
@@ -24,25 +24,15 @@ export default class extends Controller {
 
   insertResults(data) {
     const coins = ((data["coins"]))
+
     const cryptoTag = `<li class="list-group-item border-0">
       <div class="d-flex">
         <div class ="flex-item card-coin" >
-          <div class="flex-item card-coin-logo">
-            logo
-          </div>
-          <div class="flex-item card-coin-infos-left">
-            symbol
-          </div>
-          <div class="flex-item card-coin-infos-left">
-            name
-          </div>
-          <div class="flex-item card-coin-infos-right">
-            market-cap-rank
-          </div>
-          <div  class="flex-item card-coin-infos-left">
-          Select
-          </div>
-
+          <div class="flex-item card-coin-logo">        Logo    </div>
+          <div class="flex-item card-coin-infos-left">  Symbol  </div>
+          <div class="flex-item card-coin-infos-left">  Name    </div>
+          <div class="flex-item card-coin-infos-right"> Rank    </div>
+          <div  class="flex-item card-coin-infos-left"> Select  </div>
         </div>
     </li>`
     this.resultsTarget.insertAdjacentHTML("beforeend", cryptoTag)
@@ -57,25 +47,11 @@ export default class extends Controller {
         <li class="list-group-item border-0">
           <div class="d-flex">
             <div class="flex-item card-coin">
-              <div class="flex-item card-coin-logo">
-                <image src="${url}" alt="${name}" >
-              </div>
-              <div class="flex-item card-coin-infos-left"  >
-              ${symbol}
-              </div>
-              <div class="flex-item card-coin-infos-left">
-              ${name}
-              </div>
-              <div class="flex-item card-coin-infos-right">
-              ${marketcaprank}
-              </div>
-              <div class="flex-item card-coin-infos-right">
-                <div  class="flex-item card-coin-infos-select"
-                    data-action="click->select-crypto#select"
-                    data-select-crypto-target = "id">
-                    ${id}
-                </div>
-              </div>
+              <div class="flex-item card-coin-logo"> <image src="${url}" alt="${name}"> </div>
+              <div class="flex-item card-coin-infos-left">       ${symbol}              </div>
+              <div class="flex-item card-coin-infos-left">       ${name}                </div>
+              <div class="flex-item card-coin-infos-right">      ${marketcaprank}       </div>
+              <div class="flex-item card-coin-infos-right">      ${id}                  </div>
             </div>
           </div>
         </li>`
