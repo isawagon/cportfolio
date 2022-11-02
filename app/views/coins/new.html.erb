@@ -1,24 +1,15 @@
 <h1>Add a new crypto to <%= @portfolio.name %></h1>
 
-<div class="container text-center" data-controller="search-crypto" >
-  <form class = "row g-2 justify-content-center py-5"
-        data-search-crypto-target = "form"
-        data-action="submit->search-crypto#api">
+
+<div class="container text-center"  >
+  <form class = "row g-2 justify-content-center py-5" action="search">
     <input  type ="text"
             class="form-control"
             placeholder="Enter at least 3 characters... "
-            data-search-crypto-target="input"
-            minlength = 3>
+            name="coin[gecko_coin]"
+            aria-label="search">
+
     <input  type="submit"
             class="btn btn-primary btn-lg">
   </form>
-
-  <%# En attendant de savoir sélectionner dans la liste ul renvoyée par le search js,
-   l'utilisateur doit recopier %>
-  <%= simple_form_for [@portfolio, @coin] do |f| %>
-    <%= f.input :gecko_coin, :placeholder => 'Enter Select code' %>
-    <%= f.submit %>
-  <% end %>
-
-  <ul data-search-crypto-target="results"> </ul>
 </div>

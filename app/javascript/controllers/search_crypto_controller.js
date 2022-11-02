@@ -2,10 +2,16 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["form", "input", "results", "coins" ]
+
+
+
+
   connect() {
     console.log("Hello from search-crypto Stimulus controller")
     // au connect afficher les 7 plus gros market cap ?
   }
+
+
 
   api(event) {
     event.preventDefault()
@@ -19,8 +25,8 @@ export default class extends Controller {
     fetch(`https://api.coingecko.com/api/v3/search?query=${query}`)
     .then(response => response.json())
     .then(data => this.insertResults(data))
-
   }
+
 
   insertResults(data) {
     const coins = ((data["coins"]))
@@ -36,26 +42,36 @@ export default class extends Controller {
         </div>
     </li>`
     this.resultsTarget.insertAdjacentHTML("beforeend", cryptoTag)
+
+
+
     coins.forEach((value) => {
-      const id = value["id"]
+      const geckoCoin = value["id"]
       const symbol = value["symbol"]
       const name = value["name"]
-      const url = value["large"]
-      const marketcaprank = value["market_cap_rank"]
+      const imageUrl = value["large"]
+      const marketCapRank = value["market_cap_rank"]
+
 
       const cryptoTag = `
         <li class="list-group-item border-0">
           <div class="d-flex">
+            <%=escape_javascript simple_form_for([@portfolio, @coin], portfolio_coins_path(@portfolio)) do |f| %>
             <div class="flex-item card-coin">
-              <div class="flex-item card-coin-logo"> <image src="${url}" alt="${name}"> </div>
+              <div class="flex-item card-coin-logo"> <image src="${imageUrl}" alt="${name}"> </div>
               <div class="flex-item card-coin-infos-left">       ${symbol}              </div>
               <div class="flex-item card-coin-infos-left">       ${name}                </div>
-              <div class="flex-item card-coin-infos-right">      ${marketcaprank}       </div>
-              <div class="flex-item card-coin-infos-right">      ${id}                  </div>
+              <div class="flex-item card-coin-infos-right">      ${marketCapRank}       </div>
+              <div class="flex-item card-coin-infos-right" >     ${geckoCoin}          </div>
             </div>
+            <%= escape_javascript f.input:%> 
+            <%= escape_javascript f.button :submit, "AJOUTER" %>
+
           </div>
         </li>`
         this.resultsTarget.insertAdjacentHTML("beforeend", cryptoTag)
+
     })
+
   }
 }

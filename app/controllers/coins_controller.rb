@@ -1,5 +1,5 @@
 class CoinsController < ApplicationController
-  before_action :set_portfolio, only: %i[new create]
+  before_action :set_portfolio, only: %i[new create ]
 
   require "open-uri"
 
@@ -9,13 +9,31 @@ class CoinsController < ApplicationController
   def show
   end
 
+  def search
+    result = search_coingecko(params["coin"]["gecko_coin"])["coins"]
+    foundcoins = []
+    result.each do |r|
+      coin = Coin.new
+      coin.gecko_coin = r["id"]
+      coin.symbol = r["symbol"]
+      coin.name = r["name"]
+      coin.image_url = r["large"]
+      coin.portfolio_id = params["portfolio_id"].to_i
+      foundcoins << coin
+    end
+    @coins = foundcoins
+
+  end
+
   def new
     @coin = Coin.new
-    @portfolio = Portfolio.find(params[:portfolio_id])
+
   end
 
   def create
-    @coin = Coin.new(coin_params)
+    # @coin = Coin.new(coin_params)
+    @coin = Coin.new
+    @coin.gecko_coin = params["gecko_coin"]
     @coin.portfolio = @portfolio
     main_data = search_main_data(@coin.gecko_coin)
     @coin.name = main_data["name"].capitalize
@@ -24,10 +42,11 @@ class CoinsController < ApplicationController
     @coin.stock = 0
 
     # empêcher la création d'une crypto déjà en portefeuille
-    if @coin.save!
+    if @coin.save
       redirect_to root_path, notice: "nouvelle crypto ajoutée"
     else
-      render :new, status: :unprocessable_entity, notice: "erreur"
+      redirect_to new_portfolio_coin_path, notice: "#{@coin.name} est déjà en portefeuille"
+      # render :new, status: :unprocessable_entity, notice: "crypto déjà en portefeuille"
     end
   end
 
@@ -38,15 +57,19 @@ class CoinsController < ApplicationController
   end
 
   def coin_params
-    params.require(:coin).permit(:gecko_coin)
+    params.require(:coin).permit(:gecko_coin, :portfolio_id)
   end
 
   def search_main_data(gecko_id)
     main_data_url = "https://api.coingecko.com/api/v3/coins/#{gecko_id}?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false"
     main_data_serialized = URI.open(main_data_url).read
-    # gérer l'erreur si l'utilisateur ne saisit pas une crypto valide
-    # (en attendant de pouvoir la sélectionner)
     JSON.parse(main_data_serialized)
+  end
+
+  def search_coingecko(xxx)
+    search_data_url = "https://api.coingecko.com/api/v3/search?query=#{xxx}"
+    search_data_serialized = URI.open(search_data_url).read
+    JSON.parse(search_data_serialized)
   end
 
 end

@@ -16,7 +16,7 @@
             <div class="card-coin-infos-right">           Value € </div>
           </div>
           <%# end of header %>
-
+          <% total = 0 %>
           <% @coins.each do |coin| %>
             <% if coin.portfolio_id == portfolio.id %>
               <div class="flex-item card-coin">
@@ -28,10 +28,19 @@
                 <div class="flex-item card-coin-infos-right"> <%= coin.price %>  </div>
                 <div class="card-coin-infos-right">
                   <%= sprintf('%.2f', coin.stock*coin.price) %> </div>
+                  <%total += coin.stock*coin.price%>
               </div>
             <% end %>
           <% end %>
-
+          <div class="flex-item card-coin">
+                <div class="flex-item card-coin-logo"> </div>
+                <div class="flex-item card-coin-infos-left"> </div>
+                <div class="flex-item card-coin-infos-left"> </div>
+                <div class="flex-item card-coin-infos-right"> </div>
+                <div class="flex-item card-coin-infos-right"> TOTAL  </div>
+                <div class="flex-item card-coin-infos-right"> <%= sprintf('%.2f', total) %>  </div>
+          </div>
+          
           <div class="flex-item card-coin btn btn-info">
             <%= link_to "Add a coin", new_portfolio_coin_path(portfolio.id) %>
           </div>
