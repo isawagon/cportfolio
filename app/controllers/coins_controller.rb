@@ -1,5 +1,5 @@
 class CoinsController < ApplicationController
-  before_action :set_portfolio, only: %i[new create ]
+  before_action :set_portfolio, only: %i[new create search]
 
   require "open-uri"
 
@@ -19,9 +19,17 @@ class CoinsController < ApplicationController
       coin.name = r["name"]
       coin.image_url = r["large"]
       coin.portfolio_id = params["portfolio_id"].to_i
-      foundcoins << coin
+      # on ne propose pas les rank à null
+      if r["market_cap_rank"]
+        coin.market_cap_rank = r["market_cap_rank"]
+        foundcoins << coin
+      end
+    end
+    if foundcoins.count.zero?
+      redirect_to new_portfolio_coin_path, notice: "#{params['coin']['gecko_coin']} aucun résultat trouvé"
     end
     @coins = foundcoins
+    
 
   end
 
@@ -39,6 +47,7 @@ class CoinsController < ApplicationController
     @coin.name = main_data["name"].capitalize
     @coin.symbol = main_data["symbol"].upcase
     @coin.image_url = (main_data["image"])["large"]
+    @coin.market_cap_rank = main_data["market_cap_rank"]
     @coin.stock = 0
 
     # empêcher la création d'une crypto déjà en portefeuille
