@@ -1,5 +1,4 @@
 <div class="container">
-  <h1>Dashboard</h1>
   <%# <p>Find me in app/views/pages/home.html.erb</p> %>
   <div class="main-container">
     <div class="dashboard">
@@ -24,10 +23,10 @@
                   <%= image_tag coin.image_url, alt: coin.name %> </div>
                 <div class="flex-item card-coin-infos-left">  <%= coin.symbol %> </div>
                 <div class="flex-item card-coin-infos-left">  <%= coin.name %>   </div>
-                <div class="flex-item card-coin-infos-right"> <%= coin.stock %>  </div>
-                <div class="flex-item card-coin-infos-right"> <%= coin.price %>  </div>
+                <div class="flex-item card-coin-infos-right"> <%= number_with_delimiter(coin.stock, delimiter: " ", separator:",")  %>  </div>
+                <div class="flex-item card-coin-infos-right"> <%= number_with_delimiter(coin.price, delimiter: " ", separator:",") %>  </div>
                 <div class="card-coin-infos-right">
-                  <%= sprintf('%.2f', coin.stock*coin.price) %> </div>
+                  <%= number_with_delimiter(sprintf('%.2f',coin.stock*coin.price), delimiter: " ", separator:",") %> </div>
                   <%total += coin.stock*coin.price%>
               </div>
             <% end %>
@@ -38,17 +37,19 @@
                 <div class="flex-item card-coin-infos-left"> </div>
                 <div class="flex-item card-coin-infos-right"> </div>
                 <div class="flex-item card-coin-infos-right"> TOTAL  </div>
-                <div class="flex-item card-coin-infos-right"> <%= sprintf('%.2f', total) %>  </div>
+                <div class="flex-item card-coin-infos-right"> <%= number_with_delimiter(sprintf('%.2f', total), delimiter: " ", separator:",") %>  </div>
           </div>
-          
+
           <div class="flex-item card-coin btn btn-info">
             <%= link_to "Add a coin", new_portfolio_coin_path(portfolio.id) %>
           </div>
         </div>
       <% end %>
 
-      <div class="flex-item card-portfolio">
-        <a href="portfolios/new" class="btn btn-info  ">Add a portfolio</a>
+      <div class="flex-item card-portfolio ">
+        <div class="flex-item card-coin btn btn-add btn-info ">
+        <%= link_to "Add a portfolio", new_portfolio_path %>
+        </div>
       </div>
 
     </div>
