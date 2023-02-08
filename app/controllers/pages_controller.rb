@@ -24,10 +24,39 @@ class PagesController < ApplicationController
       list = "#{list},#{coin.gecko_coin}"
     end
     prices = search_price(list)
-    @coins.each do |coin|
-      coin.price = prices[coin.gecko_coin]['eur']
-      coin.change = prices[coin.gecko_coin]['eur_24h_change']
+    # @coins.each do |coin|
+    #   coin.price = prices[coin.gecko_coin]['eur']
+    #   coin.change = prices[coin.gecko_coin]['eur_24h_change']
+    # end
+
+    # créer la nouvelle liste des coins
+    @dashboard = {}
+    current_user.portfolios.all.each do |portfolio|
+      c3 = {}
+      total = 0
+      @dashboard["#{portfolio.id}"] = {}
+      c2 = current_user.coins.all.select do |c|
+        c.portfolio_id == portfolio.id
+      end
+
+      c2.each do |coin|
+        c3["#{coin.id}"] =
+          { id: coin.id,
+          portfolio_id: coin.portfolio_id,
+          image_url: coin.image_url,
+          name: coin.name,
+          stock:  coin.stock,
+          price: prices[coin.gecko_coin]['eur'],
+          value: coin.stock * prices[coin.gecko_coin]['eur'] }
+        total += coin.stock * prices[coin.gecko_coin]['eur']
+      end
+
+      # trier c3 par value DESC
+      @dashboard["#{portfolio.id}"]["assets"] = c3
+      @dashboard["#{portfolio.id}"]["total_ptf"] = total
     end
+
+# fin créer
   end
 
   private

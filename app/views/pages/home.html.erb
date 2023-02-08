@@ -5,6 +5,9 @@
       <% @portfolios.each do |portfolio| %>
         <div class="flex-item card-portfolio ">
           <h2><%= portfolio.name  %></h2>
+          <h2> <%= number_with_delimiter(sprintf('%.2f', @dashboard["#{portfolio.id}"]["total_ptf"]), delimiter: " ", separator:",") %> € </h2>
+
+
           <%# header %>
           <div class="flex-item card-coin-head">
             <div class="flex-item card-coin-logo">        Logo    </div>
@@ -16,20 +19,20 @@
           </div>
           <%# end of header %>
           <% total = 0 %>
-          <% @coins.each do |coin| %>
-            <% if coin.portfolio_id == portfolio.id %>
+          <%@dashboard["#{portfolio.id}"]["assets"].each do |coin|%>
+
               <div class="flex-item card-coin">
                 <div class="flex-item card-coin-logo">
-                  <%= image_tag coin.image_url, alt: coin.name %> </div>
-                <div class="flex-item card-coin-infos-left">  <%= coin.symbol %> </div>
-                <div class="flex-item card-coin-infos-left">  <%= coin.name %>   </div>
-                <div class="flex-item card-coin-infos-right"> <%= number_with_delimiter(coin.stock, delimiter: " ", separator:",")  %>  </div>
-                <div class="flex-item card-coin-infos-right"> <%= number_with_delimiter(coin.price, delimiter: " ", separator:",") %>  </div>
+                  <%= image_tag coin[1][:image_url], alt: coin[1][:name] %> </div>
+                <div class="flex-item card-coin-infos-left">  <%= coin[1][:symbol] %> </div>
+                <div class="flex-item card-coin-infos-left">  <%= coin[1][:name] %>   </div>
+                <div class="flex-item card-coin-infos-right"> <%= number_with_delimiter(coin[1][:stock], delimiter: " ", separator:",")  %>  </div>
+                <div class="flex-item card-coin-infos-right"> <%= number_with_delimiter(coin[1][:price], delimiter: " ", separator:",") %>  </div>
                 <div class="card-coin-infos-right">
-                  <%= number_with_delimiter(sprintf('%.2f',coin.stock*coin.price), delimiter: " ", separator:",") %> </div>
-                  <%total += coin.stock*coin.price%>
+                  <%= number_with_delimiter(sprintf('%.2f',coin[1][:value]), delimiter: " ", separator:",") %> </div>
+                  <%total += coin[1][:value]%>
               </div>
-            <% end %>
+
           <% end %>
           <div class="flex-item card-coin">
                 <div class="flex-item card-coin-logo"> </div>
