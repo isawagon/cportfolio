@@ -10,19 +10,20 @@ class PagesController < ApplicationController
   # appeler l'API
   # associer le price à chaque coin
   # a faire optional:
-    # supprimer les données prix de la DB,
+    # supprimer les données prix, change et rank de la DB,
     # mettre les données ptf dans @dashboard et ne plus envoyer @portfolios à la vue
     # appel à une method pour constituer les hash des coins
 
     # préparer la liste des gecko_coin et appel API pour récupérer les cours
     @portfolios = current_user.portfolios.all
     coins = current_user.coins.all
-    list = "#{coins.first.gecko_coin}"
-    coins.each do |coin|
-      list = "#{list},#{coin.gecko_coin}"
+    if coins.first
+      list = "#{coins.first.gecko_coin}"
+      coins.each do |coin|
+        list = "#{list},#{coin.gecko_coin}"
+      end
+      prices = search_price(list)
     end
-    prices = search_price(list)
-
     # constituer les données dashboard
     @dashboard = {}
     current_user.portfolios.all.each do |portfolio|
