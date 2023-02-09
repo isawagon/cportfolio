@@ -9,37 +9,32 @@ class CoinsController < ApplicationController
   def show
   end
 
-  def search
-    result = search_coingecko(params["coin"]["gecko_coin"])["coins"]
-    foundcoins = []
-    result.each do |r|
-      coin = Coin.new
-      coin.gecko_coin = r["id"]
-      coin.symbol = r["symbol"]
-      coin.name = r["name"]
-      coin.image_url = r["large"]
-      coin.portfolio_id = params["portfolio_id"].to_i
-      # on ne propose pas les rank à null
-      if r["market_cap_rank"]
-        coin.market_cap_rank = r["market_cap_rank"]
-        foundcoins << coin
-      end
-    end
-    if foundcoins.count.zero?
-      redirect_to new_portfolio_coin_path, notice: "#{params['coin']['gecko_coin']} aucun résultat trouvé"
-    end
-    @coins = foundcoins
-    
-
-  end
-
   def new
     @coin = Coin.new
-
+    foundcoins = []
+    if params[:searched_coin]
+      result = search_coingecko(params[:searched_coin])["coins"]
+      result.each do |r|
+        coin = Coin.new
+        coin.gecko_coin = r["id"]
+        coin.symbol = r["symbol"]
+        coin.name = r["name"]
+        coin.image_url = r["large"]
+        coin.portfolio_id = params["portfolio_id"].to_i
+        # on ne propose pas les rank à null
+        if r["market_cap_rank"]
+          coin.market_cap_rank = r["market_cap_rank"]
+          foundcoins << coin
+        end
+      end
+      if foundcoins.count.zero?
+        redirect_to new_portfolio_coin_path, notice: "#{params[:searched_coin]} aucun résultat trouvé"
+      end
+    end
+    @coins = foundcoins
   end
 
   def create
-    # @coin = Coin.new(coin_params)
     @coin = Coin.new
     @coin.gecko_coin = params["gecko_coin"]
     @coin.portfolio = @portfolio
@@ -55,7 +50,6 @@ class CoinsController < ApplicationController
       redirect_to root_path, notice: "nouvelle crypto ajoutée"
     else
       redirect_to new_portfolio_coin_path, notice: "#{@coin.name} est déjà en portefeuille"
-      # render :new, status: :unprocessable_entity, notice: "crypto déjà en portefeuille"
     end
   end
 
@@ -80,5 +74,4 @@ class CoinsController < ApplicationController
     search_data_serialized = URI.open(search_data_url).read
     JSON.parse(search_data_serialized)
   end
-
 end
