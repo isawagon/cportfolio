@@ -23,6 +23,10 @@ class PagesController < ApplicationController
         list = "#{list},#{coin.gecko_coin}"
       end
       prices = search_price(list)
+      prices['euro_fiat'] =
+        { "eur" => 1,
+          "eur_24h_change" => 0 }
+
     end
     # constituer les données dashboard
     @dashboard = {}
@@ -39,6 +43,7 @@ class PagesController < ApplicationController
           { id: coin.id,
             portfolio_id: coin.portfolio_id,
             image_url: coin.image_url,
+            symbol: coin.symbol,
             name: coin.name,
             stock: coin.stock,
             price: prices[coin.gecko_coin]['eur'],

@@ -1,0 +1,12 @@
+<div class="container">
+<h1>new transaction <%=@portfolio.name%></h1>
+
+<%# transfert ou achat/vente %>
+<%# selon choix afficher le formulaire ?%>
+
+<%= simple_form_for([@portfolio, @transaction]) do |f| %>
+<%# combobox liste des coins du portfeuille javascript%>
+<%= f.input :coin_in_id %>
+<%= f.button :submit, class: 'btn btn-primary' %>
+<% end %>
+</div>

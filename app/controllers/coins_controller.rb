@@ -7,6 +7,7 @@ class CoinsController < ApplicationController
   end
 
   def show
+    @coin = Coin.find(params[:id])
   end
 
   def new
