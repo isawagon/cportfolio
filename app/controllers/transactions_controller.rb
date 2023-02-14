@@ -1,16 +1,28 @@
 class TransactionsController < ApplicationController
   def index
+    @transactions = @Transaction.all.where(portfolio_id: params[:portfolio_id])
   end
 
   def new
     @portfolio = Portfolio.find(params[:portfolio_id])
-    @coins = Coin.where(portfolio_id: params[:portfolio_id])
+    @coins = Coin.all.where(portfolio_id: params[:portfolio_id])
+    @registered = Transaction.all.where(portfolio_id: params[:portfolio_id]).sort.reverse
     @transaction = Transaction.new
+
   end
 
   def create
     @transaction = Transaction.new(transaction_params)
     @coins = Coin.where(portfolio_id: params[:portfolio_id])
+    @transaction.portfolio_id = params[:portfolio_id]
+
+
+    if @transaction.save
+      redirect_to new_portfolio_transaction_path, notice: "transaction ajoutée"
+    else
+      redirect_to new_portfolio_transaction_path, notice: "pb ajout transaction"
+    end
+
   end
 
   private
