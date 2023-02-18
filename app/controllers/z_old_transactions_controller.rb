@@ -21,7 +21,6 @@ class TransactionsController < ApplicationController
     coins.each do |coin|
       coin.price = prices[coin.gecko_coin]['eur']
     end
-
     @coins = coins
     @registered = Transaction.all.where(portfolio_id: params[:portfolio_id]).sort.reverse
     @transaction = Transaction.new

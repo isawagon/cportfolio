@@ -26,7 +26,6 @@ class PagesController < ApplicationController
       prices['euro_fiat'] =
         { "eur" => 1,
           "eur_24h_change" => 0 }
-
     end
     # constituer les données dashboard
     @dashboard = {}
@@ -41,10 +40,10 @@ class PagesController < ApplicationController
       c2.each do |coin|
         c3["#{coin.id}"] =
           { id: coin.id,
-            portfolio_id: coin.portfolio_id,
-            image_url: coin.image_url,
             symbol: coin.symbol,
             name: coin.name,
+            image_url: coin.image_url,
+            portfolio_id: coin.portfolio_id,
             stock: coin.stock,
             price: prices[coin.gecko_coin]['eur'],
             value: coin.stock * prices[coin.gecko_coin]['eur'] }
