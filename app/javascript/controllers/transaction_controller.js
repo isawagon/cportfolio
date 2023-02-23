@@ -1,7 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
- static targets = ['coinIn', 'amountIn', 'stockIn', 'results']
+ static targets = ['coinIn', 'amountIn', 'stockIn', 'resultsIn',
+                   'coinOut', 'amountOut', 'stockOut', 'resultsOut',
+                   'coinFees', 'amountFees', 'stockFees', 'resultsFees']
 
   connect() {
     console.log("***CONNECTED", this.element)
@@ -14,32 +16,90 @@ export default class extends Controller {
     this.element.setAttribute("disabled", "")
   }
 
-  recap() {
-    console.log("***controller action recap")
+  recapIn() {
+    console.log("***controller action recap IN")
     const coinIn = this.coinInTarget.value
     const amountIn = this.amountInTarget.value ? this.amountInTarget.value :0
     // const amountIn = parseInt(this.amountInTarget.value)
-    console.log('saisie: coin ', coinIn, 'amount ', amountIn)
-    // constitution du tableau
+    console.log('saisie: coinIn ', coinIn, 'amountIn ', amountIn)
+    const portfolioContent = this.portfolioContent();
+    console.log(portfolioContent);
+
+    console.log('okIN?');
+    // this.insertstockprice(coinIn, amountIn, portfolioContent)
+    this.resultsInTarget.innerText = this.insertstockprice(coinIn, amountIn, portfolioContent);
+  }
+
+  recapOut() {
+    console.log("***controller action recap OUT")
+    const coinOut = this.coinOutTarget.value
+    const amountOut = this.amountOutTarget.value ? this.amountOutTarget.value * -1 :0
+    // const amountIn = parseInt(this.amountInTarget.value)
+    console.log('saisie: coinOut ', coinOut, 'amountOut ', amountOut)
+    const portfolioContent = this.portfolioContent();
+    console.log(portfolioContent);
+
+    console.log('okOUT?');
+    // this.insertstockprice(coinIn, amountIn, portfolioContent)
+    this.resultsOutTarget.innerText = this.insertstockprice(coinOut, amountOut, portfolioContent);
+  }
+
+  recapFees() {
+    console.log("***controller action recap Fees")
+    const coinFees = this.coinFeesTarget.value
+    const amountFees = this.amountFeesTarget.value ? this.amountFeesTarget.value * -1 :0
+    // const amountIn = parseInt(this.amountInTarget.value)
+    console.log('saisie: coinFees ', coinFees, 'amountFees ', amountFees)
+    const portfolioContent = this.portfolioContent();
+    console.log(portfolioContent);
+
+    console.log('okFees?');
+    // this.insertstockprice(coinIn, amountIn, portfolioContent)
+    this.resultsFeesTarget.innerText = this.insertstockprice(coinFees, amountFees, portfolioContent);
+  }
+
+  insertstockprice(coin, amount, portfolioContent) {
+    //rechercher la crypto dans le portfeuille
+    const symbol = portfolioContent[coin].symbol;
+    const stockBefore = portfolioContent[coin].stock;
+    const price = portfolioContent[coin].price;
+    //calculer la contrevaleur amount * price
+    let estimated = amount * price;
+    estimated = Number.parseFloat(estimated).toFixed(2);
+    //calculer stockAfter = stock + Amount
+    let stockAfter = Number.parseFloat(stockBefore)+ Number.parseFloat(amount);
+    //renvoyer une ligne avec contrevaleur, stock et stockAfter
+    console.log('symbol ', symbol)
+    console.log('stock before', typeof(stockBefore), stockBefore);
+    console.log('stock after', typeof(stockAfter), stockAfter);
+    console.log('amount', typeof(amount), amount);
+    console.log('Price', typeof(price), price);
+    console.log('estimated', typeof(estimated), estimated);
+
+    // const tag = `Estimated ${estimated}€ Stock ${symbol} before ${stockBefore} after ${stockAfter}`
+    // this.resultsTarget.innerText = tag
+    const tag = `Estimated ${estimated}€ Stock ${symbol} before ${stockBefore} after ${stockAfter}`
+    return tag
+
+  }
+
+  portfolioContent() {
+    // constitution du hash du stock portefeuille
     let tableau = [];
-    let indices = [];
+
     const ids = document.querySelectorAll("#id li");
     let tcoin = [];
     ids.forEach((item) => {
       tcoin = []
       tcoin.push(item.innerText);
-      indices.push(item.innerText);
       tableau.push(tcoin);
     });
-    console.log(tableau);
-
     const symbols = document.querySelectorAll("#symbol li");
     let j = 0;
     symbols.forEach((item) => {
       tableau[j][1] = item.innerText;
       j = j+1;
     });
-
     const stocks = document.querySelectorAll("#stock li");
     j = 0;
     stocks.forEach((item) => {
@@ -52,45 +112,11 @@ export default class extends Controller {
       tableau[j][3] = item.innerText;
       j = j+1;
     });
-    console.log(tableau);
-    console.log(indices);
-    // fin constitution du tableau
-    this.insertstockprice(coinIn, amountIn, tableau, indices)
+
+    let portfolioContent = {};
+    tableau.forEach((t) => {
+      portfolioContent[t[0]] = {symbol: t[1], stock: t[2], price: t[3]}
+    });
+    return portfolioContent;
   }
-
-  insertstockprice(coinIn, amountIn, tableau, indices) {
-
-
-    //rechercher l'index de coinIn
-    console.log(indices.indexOf(coinIn));
-    let k = indices.indexOf(coinIn);
-        console.log('ok5?');
-    //rechercher le stock et le price par l'index
-    let symbol = tableau[k][1];
-    let stockBefore = tableau[k][2];
-    let price = tableau[k][3];
-    console.log(stockBefore);
-    console.log(price);
-    console.log('ok6?');
-    //calculer la contrevaleur amountIn * price
-    let estimated = amountIn * price;
-    console.log(estimated);
-    estimated = Number.parseFloat(estimated).toFixed(2);
-    console.log('ok7?');
-    //calculer stockAfter = stock + AmountIn
-    let stockAfter = Number.parseFloat(stockBefore)+ Number.parseFloat(amountIn);
-    console.log(stockAfter);
-    console.log('ok8?')
-    //renvoyer une ligne avec contrevaleur, stock et stockAfter
-    console.log('stock before',typeof(stockBefore), stockBefore);
-    console.log('stock after', typeof(stockAfter), stockAfter);
-    console.log('amount IN', typeof(amountIn), amountIn);
-    console.log('Price', typeof(price), price);
-    console.log('estimated', typeof(estimated), estimated);
-
-    const tag = `Estimated ${estimated}€ Stock ${symbol} before ${stockBefore} after ${stockAfter}`
-    this.resultsTarget.innerText = tag
-
-  }
-
 }
