@@ -12,7 +12,7 @@
         <%= f.input :amount_in,
         input_html:{data: { target:  "transaction.amountIn", action: "change->transaction#recapIn"   }} %>
       </div>
-      <div data-transaction-target="resultsIn" class ="italic">
+      <div data-transaction-target="resultsIn" class ="estimated">
       </div>
 
       <div class="add-transaction-coin">
@@ -24,7 +24,7 @@
         <%= f.input :amount_out,
           input_html:{data: { target:  "transaction.amountOut", action: "change->transaction#recapOut"   }} %>
       </div>
-      <div data-transaction-target="resultsOut" class ="italic">
+      <div data-transaction-target="resultsOut" class ="estimated">
       </div>
 
       <div class="add-transaction-coin">
@@ -36,7 +36,7 @@
         <%= f.input :amount_fees,
           input_html:{data: { target:  "transaction.amountFees", action: "change->transaction#recapFees"   }}  %>
       </div>
-      <div data-transaction-target="resultsFees" class ="italic">
+      <div data-transaction-target="resultsFees" class ="estimated">
       </div>
 
       <%= f.button :submit, class: 'btn btn-primary', action: 'click->transaction#disable'%>

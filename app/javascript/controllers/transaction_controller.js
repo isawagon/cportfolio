@@ -67,7 +67,18 @@ export default class extends Controller {
     let estimated = amount * price;
     estimated = Number.parseFloat(estimated).toFixed(2);
     //calculer stockAfter = stock + Amount
-    let stockAfter = Number.parseFloat(stockBefore)+ Number.parseFloat(amount);
+    console.log('REGARDE CES 5 LIGNES')
+    console.log('stock before', typeof(stockBefore), stockBefore);
+    let stockB = Number.parseFloat(stockBefore);
+    console.log('stockB', typeof(stockB), stockB);
+    console.log('amount', typeof(amount), amount);
+    let amountB = Number.parseFloat(amount);
+    console.log('amountB', typeof(amountB), amountB);
+    let stockAfter = Number.parseFloat((stockB + amountB).toFixed(10));
+    console.log('stock after', typeof(stockAfter), stockAfter);
+
+    // let stockAfter = Number.parseFloat(stockBefore)+ Number.parseFloat(amount);
+
     //renvoyer une ligne avec contrevaleur, stock et stockAfter
     console.log('symbol ', symbol)
     console.log('stock before', typeof(stockBefore), stockBefore);

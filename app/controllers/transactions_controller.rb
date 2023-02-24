@@ -34,7 +34,25 @@ class TransactionsController < ApplicationController
     @transaction.portfolio_id = params[:portfolio_id]
 
 
-    if @transaction.save
+    coin_in = Coin.find(params[:transaction][:coin_in_id].to_s)
+    coin_in.stock = coin_in.stock + params[:transaction][:amount_in].to_f
+    coin_out = Coin.find(params[:transaction][:coin_out_id].to_s)
+    coin_out.stock = coin_out.stock - params[:transaction][:amount_out].to_f
+    if params[:transaction][:coin_fees_id] > ""
+      coin_fees = Coin.find(params[:transaction][:coin_fees_id].to_s)
+      if coin_fees == coin_in
+        coin_in.stock = coin_in.stock - params[:transaction][:amount_fees].to_f
+        coin_fees.stock = coin_in.stock
+      elsif coin_fees == coin_out
+        coin_out.stock = coin_out.stock - params[:transaction][:amount_fees].to_f
+        coin_fees.stock = coin_out.stock
+      else
+        coin_fees.stock = coin_fees.stock - params[:transaction][:amount_fees].to_f
+      end
+    else
+      coin_fees = coin_out
+    end
+    if @transaction.save & coin_in.save & coin_out.save & coin_fees.save
       redirect_to new_portfolio_transaction_path, notice: "transaction ajoutée"
     else
       redirect_to new_portfolio_transaction_path, notice: "pb ajout transaction"
