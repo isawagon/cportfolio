@@ -9,34 +9,35 @@
             value="<%= params[:searched_coin] %>"
             aria-label="search">
     <input  type="submit"
-            class="btn btn-primary btn-lg">
+            value="Search"
+            class="search-coin">
   </form>
-</div>
 
-<ul>
-  <li class="list-group-item border-0">
-    <div class="d-flex">
-      <div class ="flex-item card-coin" >
-        <div class="flex-item card-coin-logo">        Logo    </div>
-        <div class="flex-item card-coin-infos-left">  Name    </div>
-        <div class="flex-item card-coin-infos-right"> Rank    </div>
-        <div class="flex-item card-coin-infos-left"> Add crypto  </div>
+  <div>
+    <div class="list-group-item border-0">
+      <div class="d-flex">
+        <div class ="flex-item card-coin" >
+          <div class="flex-item card-coin-logo">        Logo    </div>
+          <div class="flex-item card-coin-infos-left">  Name    </div>
+          <div class="flex-item card-coin-infos-right"> Rank    </div>
+          <div class="flex-item card-coin-infos-left"> Add crypto  </div>
+        </div>
       </div>
     </div>
-  </li>
-  <% @coins.each do |c| %>
-    <li class="list-group-item border-0">
-      <div class="d-flex">
-        <div class="flex-item card-coin">
-          <div class="flex-item card-coin-logo"> <%= image_tag c.image_url, alt: c.name %> </div>
-          <div class="flex-item card-coin-infos-left">  <%= c.name %>   </div>
-          <div class="flex-item card-coin-infos-right"> <%= c.market_cap_rank %>   </div>
-          <div class="flex-item card-coin-infos-left button">
-            <%= button_to "#{c.symbol}",
-                portfolio_coins_path(c.portfolio_id, gecko_coin: c.gecko_coin) %>
+    <% @coins.each do |c| %>
+      <div class="list-group-item border-0">
+        <div class="d-flex">
+          <div class="flex-item card-coin">
+            <div class="flex-item card-coin-logo"> <%= image_tag c.image_url, alt: c.name %> </div>
+            <div class="flex-item card-coin-infos-left">  <%= c.name %>   </div>
+            <div class="flex-item card-coin-infos-right"> <%= c.market_cap_rank %>   </div>
+            <div class="flex-item card-coin-infos-left button">
+              <%= button_to "#{c.symbol}",
+                  portfolio_coins_path(c.portfolio_id, gecko_coin: c.gecko_coin) %>
+            </div>
           </div>
         </div>
       </div>
-    </li>
-  <% end %>
-</ul>
+    <% end %>
+  </div>
+</div>

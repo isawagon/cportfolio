@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>new transaction <%=@portfolio.name%></h1>
+  <h1><%=@portfolio.name%></h1>
 
   <div data-controller="transaction" data-transaction-position-value="afterbegin">
     <%= simple_form_for([@portfolio, @transaction]) do |f| %>
@@ -39,15 +39,27 @@
       <div data-transaction-target="resultsFees" class ="estimated">
       </div>
 
-      <%= f.button :submit, class: 'btn btn-primary', action: 'click->transaction#disable'%>
+      <div>
+        <%# faire saisir la date, valeur par défaut = today %>
+        <%# <%= f.input :date, prompt: DateTime.now, default: DateTime.now %>
+      </div>
+      <%= f.button :submit, class: 'validate', action: 'click->transaction#disable'%>
     <% end %>
   </div>
 
-  <div class="container">
-  <h1>Registered transactions</h1>
-  <%@registered.each do |t| %>
-   <p>   <%=t.created_at%> <%=t.coin_in_id%> <%=t.amount_in%> <%=t.coin_out_id%> <%=t.amount_out%></p>
-  <%end%>
+  <div class="container list">
+    <h1>Registered Transactions</h1>
+    <%@registered.each do |t| %>
+      <%symbol_in = @coins.find(t.coin_in_id).symbol%>
+      <%symbol_out = @coins.find(t.coin_out_id).symbol%>
+
+      <%t.date ? date = t.date.strftime("%d%b%y ") : date = t.created_at.strftime("%d%b%y ")%>
+      <%# <%date = t.created_at.strftime("%d%b%y %Hh%M")%>
+      <%# <%date = t.date.strftime("%d%b%y ") %>
+
+      <p> <%=date%> Buy <%=symbol_in%> <%=t.amount_in%> Sell <%=symbol_out%> <%=t.amount_out%></p>
+
+    <%end%>
   </div>
 </div>
 
