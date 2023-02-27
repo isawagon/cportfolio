@@ -56,7 +56,7 @@ class TransactionsController < ApplicationController
     if @transaction.save && coin_in.save && coin_out.save && coin_fees.save
       redirect_to new_portfolio_transaction_path, notice: "transaction ajoutée"
     else
-      ActiveRecord::Rollback
+      # ActiveRecord::Rollback
       redirect_to new_portfolio_transaction_path, notice: "pb ajout transaction"
     end
 
